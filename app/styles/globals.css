@@ -3,7 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
-/* カスタム変数 */
+/* もし PostCSS の独自プラグインがない場合、この行は削除してください */
+/* @source "../../node_modules/streamdown/dist/index.js"; */
+
+/* CSS Variables */
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -11,58 +14,81 @@
     "Roboto Mono", "Oxygen Mono", "Ubuntu Monospace", "Source Code Pro",
     "Fira Mono", "Droid Sans Mono", "Courier New", monospace;
 
-  --foreground-rgb: 17, 25, 40;
-  --background-start-rgb: 249, 250, 251;
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 
-  --primary-glow: conic-gradient(from 180deg at 50% 50%,
-      #16abff33 0deg,
-      #0885ff33 55deg,
-      #54d6ff33 120deg,
-      #0071ff33 160deg,
-      transparent 360deg);
-  --secondary-glow: radial-gradient(rgba(255, 255, 255, 1),
-      rgba(255, 255, 255, 0));
+  --primary-glow: conic-gradient(
+    from 180deg at 50% 50%,
+    #16abff33 0deg,
+    #0885ff33 55deg,
+    #54d6ff33 120deg,
+    #0071ff33 160deg,
+    transparent 360deg
+  );
+  --secondary-glow: radial-gradient(
+    rgba(255, 255, 255, 1),
+    rgba(255, 255, 255, 0)
+  );
 
   --tile-start-rgb: 239, 245, 249;
   --tile-end-rgb: 228, 232, 233;
- 20);
+  --tile-border: conic-gradient(
+    #00000080,
+    #00000040,
+    #00000030,
+    #00000020,
+    #00000010,
+    #00000010,
+    #00000080
+  );
 
   --callout-rgb: 238, 240, 241;
   --callout-border-rgb: 172, 175, 176;
-  --card-rgb: 255, 255, 255;
-  --card-border-rgb: 229, 231, 235;
+  --card-rgb: 180, 185, 188;
+  --card-border-rgb: 131, 134, 135;
 }
 
-/* ダークモード対応 */
+/* ダークモード（必要なら有効化） */
+/*
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 17, 24, 39;
-    --background-end-rgb: 17, 24, 39;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
 
-    --primary-glow: radial-gradient(rgba(1, 65, 255, 0.4), rgba(1, 65, 255, 0));
-    --secondary-glow: linear-gradient(to bottom right,
-        rgba(1, 65, 255, 0),
-        rgba(1, 65, 255, 0),
-        rgba(1, 65, 255, 0.3));
+    --primary-glow: radial-gradient(
+      rgba(1, 65, 255, 0.4),
+      rgba(1, 65, 255, 0)
+    );
+    --secondary-glow: linear-gradient(
+      to bottom right,
+      rgba(1, 65, 255, 0),
+      rgba(1, 65, 255, 0),
+      rgba(1, 65, 255, 0.3)
+    );
 
-    --tile-start-rgb: 31, 41, 55;
-    --tile-end-rgb: 17, 24, 39;
-    --tile-border: conic-gradient(#ffffff20,
-        #ffffff10,
-        #ffffff05,
-        #ffffff10,
-        #ffffff20);
+    --tile-start-rgb: 2, 13, 46;
+    --tile-end-rgb: 2, 5, 19;
+    --tile-border: conic-gradient(
+      #ffffff80,
+      #ffffff40,
+      #ffffff30,
+      #ffffff20,
+      #ffffff10,
+      #ffffff10,
+      #ffffff80
+    );
 
-    --callout-rgb: 31, 31, 31;
+    --callout-rgb: 20, 20, 20;
     --callout-border-rgb: 108, 108, 108;
-    --card-rgb: 45, 45, 45;
-    --card-border-rgb: 80, 80, 80;
+    --card-rgb: 100, 100, 100;
+    --card-border-rgb: 200, 200, 200;
   }
 }
+*/
 
-/* リセット */
+/* Reset */
 * {
   box-sizing: border-box;
   padding: 0;
@@ -73,34 +99,52 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-  font-family: 'Inter', sans-serif;
+  font-feature-settings: "kern";
 }
 
 body {
   color: rgb(var(--foreground-rgb));
+  /* シンプルにしつつグラデーション背景を有効にしたい場合はコメント解除 */
+  /*
   background: linear-gradient(
-      to bottom,
-      rgb(var(--background-start-rgb)),
-      rgb(var(--background-end-rgb))
-    );
+    to bottom,
+    transparent,
+    rgb(var(--background-end-rgb))
+  ) rgb(var(--background-start-rgb));
+  */
 }
 
-/* リンク */
+/* Links */
 a {
   color: inherit;
   text-decoration: none;
 }
 
-/* タイポグラフィ */
+/* ダークモードの color-scheme を Tailwind と併用する場合は有効化 */
+/*
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+*/
+
+/* === CSS Utils === */
 .h1 {
-  @apply text-4xl font-bold leading-tight text-gray-900 dark:text-gray-100 mb-6;
+  padding-bottom: 1.5rem;
+  line-height: 1.5;
+  font-size: 1.125rem;
+  color: #111928;
 }
 
 .h2 {
-  @apply text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4;
+  font-size: 14px;
+  font-weight: 500;
+  color: #111928;
+  line-height: 1.5;
 }
 
-/* ユーティリティ */
+/* Tailwind utility composition */
 .link {
   @apply text-blue-600 cursor-pointer hover:opacity-80 transition-opacity duration-200 ease-in-out;
 }
@@ -113,17 +157,14 @@ a {
   text-fill-color: transparent;
 }
 
-/* カード */
-.card {
-  @apply bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300;
-}
-
-/* ボタン */
-.btn-primary {
-  @apply bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200;
-}
-
-/* セクション */
+/* 追加のコンポーネント（必要なら使用） */
 .section {
   @apply max-w-5xl mx-auto px-6 py-12;
 }
+
+.card {
+  @apply bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300;
+}
+
+.btn-primary {
+  @apply bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200;
