@@ -156,15 +156,3 @@ a {
   background-clip: text;
   text-fill-color: transparent;
 }
-
-/* 追加のコンポーネント（必要なら使用） */
-.section {
-  @apply max-w-5xl mx-auto px-6 py-12;
-}
-
-.card {
-  @apply bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300;
-}
-
-.btn-primary {
-  @apply bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200;
